@@ -20,12 +20,12 @@ cfg=ft_definetrial(cfg);
 trials = cfg.trl;
 
 cfg.viewmode = 'vertical'; %%%% remplacer par butterfly pour avoir les electrodes superposées
-%%% Paramètres de préprocessing uniquement pour la visu 
+%%% Paramètres de préprocessing uniquement pour la visu
 cfg.preproc.bpfilter = 'yes';
 cfg.preproc.bpfreq = [0.3 70];
-cfg.preproc.dftfilter = 'yes'; %%% Ceci est le notch 
+cfg.preproc.dftfilter = 'yes'; %%% Ceci est le notch
 
-%%% Cette fonction démarre l'outil de visualisation 
+%%% Cette fonction démarre l'outil de visualisation
 cfg_visual_clean = ft_databrowser(cfg);
 
 %%% Dans cfg_visual_clean, on a la définition des segments rejetés
@@ -33,21 +33,21 @@ cfg_visual_clean = ft_databrowser(cfg);
 %%% Ils sont visibles dans cfg_visual_clean.artfctdef.visual.artifact
 
 %%%% Pour les rejeter, appliquer la fonction ft_rejectartifact de la
-%%%% manière suivante : 
+%%%% manière suivante :
 
 
- % rejet artefacts
-    cfg            = [];
-    cfg.trl        = trials;
-    cfg.datafile   = infile;
-    cfg.headerfile = infile;
-    cfg.artfctdef = cfg_visual_clean.artfctdef;
-    cfg.artfctdef.reject          = 'complete';%'complete' (default = 'complete')
-    %cfg.artfctdef.minaccepttim    =                      
-    %cfg.artfctdef.crittoilim      = %when using complete rejection, reject  trial only when artifacts occur within this time window (default = whole trial)
-    %cfg.artfctdef.eog.artifact    = artifact_eog;
-    %cfg.artfctdef.jump.artifact   = artifact_jump;
-    %cfg.artfctdef.muscle.artifact = artifact_muscle;
-    cfg_clean = ft_rejectartifact(cfg);
+% rejet artefacts
+cfg            = [];
+cfg.trl        = trials;
+cfg.datafile   = infile;
+cfg.headerfile = infile;
+cfg.artfctdef = cfg_visual_clean.artfctdef;
+cfg.artfctdef.reject          = 'complete';%'complete' (default = 'complete')
+%cfg.artfctdef.minaccepttim    =
+%cfg.artfctdef.crittoilim      = %when using complete rejection, reject  trial only when artifacts occur within this time window (default = whole trial)
+%cfg.artfctdef.eog.artifact    = artifact_eog;
+%cfg.artfctdef.jump.artifact   = artifact_jump;
+%cfg.artfctdef.muscle.artifact = artifact_muscle;
+cfg_clean = ft_rejectartifact(cfg);
 
 %%%%
