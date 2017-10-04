@@ -12,6 +12,10 @@
 %% Dans ce cas, on retranche au MAX 1 min 55 ce qui a été raté 
 
 
+%% 0 - Définition des triggers et ordres des conditions 
+%% - input : le petit cahier d'Olivier (hélas pas en numérique) 
+%% - output : annotation des triggers et ordre des conditions 
+
 %% 1 - Garder un set d'electrodes défini à l'avance (défini dans script_0_paramaters) 
 %% -- input : données brutes
 %% -- output : données brutes moins les électrodes rejetées (format mat) 
