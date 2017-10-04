@@ -1,8 +1,19 @@
-% Description des étapes du pipeline de preprocessing oddball
+% Description des étapes du pipeline de preprocessing ECOUTE
+
+%%% STRUCTURE DES DONNEES BRUTES 
+%%% 6 Conditions 
+%%% ....... parfois 5 
+%%% Les conditions démarrent par un trigger et font deux minutes
+%%% A faire : dropper les 5 premières de l'enregistrement 
+%%% On prend au MAX 1 min 55 
+
+%%% Dans certains cas (annotaiton sur cahier de labo), le trigger doit être
+%%% décalé d'un certain nombre de secondes 
+%% Dans ce cas, on retranche au MAX 1 min 55 ce qui a été raté 
 
 
 %% 1 - Garder un set d'electrodes défini à l'avance (défini dans script_0_paramaters) 
-%% -- input : données brutes 
+%% -- input : données brutes
 %% -- output : données brutes moins les électrodes rejetées (format mat) 
 
 %% 2 - Rejection d'artefact visuellement identifiables sur des données filtrées 
@@ -22,6 +33,8 @@
 %% output : annotations d'electrodes à rejeter et à interpoler plus tard
 
 %% 5 - Transform ICA (Analyse en composantes indépendantes) 
+%%% Dans cette étape, découper les données en segments contigus (5
+%%% secondes)
 %% -- Inputs : données brutes (elec utiles)  + annotations d'artefacts des étapes 2 et 3 + annotations d'electrodes à rejeter
 %% -- Output : Composantes ICA
 
@@ -38,16 +51,5 @@
 %% input : output de 7 
 %% output : données preproc finale 
 
-%% 9 - Calcul des ERP individuels 
-%% input : données preproc finale 
-%% output : ERP individuel 
-
-%% 10 - Visu ERP individuels 
-
-
-
-
-%% 10 - Calcul des grand average ERP 
-%% input : ERP individuels de tous 
 
 
