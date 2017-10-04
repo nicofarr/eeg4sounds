@@ -1,8 +1,10 @@
 %%%%% INITIALISATION
 
-addpath C:\Users\odufor\Desktop\braingraph_eeg\
+%addpath C:\Users\odufor\Desktop\braingraph_eeg\
 
-infile='C:\Users\odufor\Desktop\postdocorange\DONNEES_SUJETS\PC27\PC27OddBin_20170711_100408.mff';
+%infile='C:\Users\odufor\Desktop\postdocorange\DONNEES_SUJETS\PC27\PC27OddBin_20170711_100408.mff';
+
+infile='/Users/nicolasfarrugia/Documents/recherche/data_eeg/eeg4sounds/LA17/LA80OddSTE_20170906_113425.mff';
 
 %hdr=ft_read_header(filename);
 %%
@@ -11,7 +13,7 @@ infile='C:\Users\odufor\Desktop\postdocorange\DONNEES_SUJETS\PC27\PC27OddBin_201
 %%%% DEFINITION DES ESSAIS 
 
 cfg=[];
-cfg.namesuj='CP12';
+cfg.namesuj='LA17';
 cfg.trialfun   = 'ft_trialfun_OddBin';% enleve 
 cfg.trialdef.prestim=0.5;
 cfg.trialdef.poststim=1;

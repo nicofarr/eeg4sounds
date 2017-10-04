@@ -12,7 +12,7 @@ stimulus_sample =stimulus_sample(2:end);
 
 
 % read xlsfile containing event info
-filename=['C:\Users\odufor\Desktop\postdocorange\MATLAB\oddball\',cfg.namesuj,'triggerOddball.xlsx'];
+filename=['triggerOddball.xlsx'];
 [trigger, name] = xlsread(filename);
 
 
