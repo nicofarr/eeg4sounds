@@ -2,7 +2,7 @@ addpath ../common/
 
 check_set_datadir;
 
-file_ecoute = choose_file(datadir);
+[file_ecoute,subjid] = choose_file(datadir);
 
 close all
 
@@ -23,7 +23,7 @@ cfg.trialdef.eventtype = 'comm';
 %%% potentially shifting individual trials if they were started at tbe
 %%% wrong moment
 cfg.trialdef.prestim = 0;
-cfg.trialdef.poststim = 115;
+cfg.trialdef.poststim = 120;
 
 cfg.headerformat = 'egi_mff_v2';
 cfg.eventformat = 'egi_mff_v2';
@@ -32,7 +32,11 @@ cfg.eventformat = 'egi_mff_v2';
 cfg = ft_definetrial(cfg);
 
 %%%% Noter ici le nombre detrials 
+clear trials
 trials = cfg.trl; 
+
+trials(:,1)=trials(:,1) + 5000;
+
 
 fig = figure;
 
@@ -45,14 +49,30 @@ addtrial = input('Do you want to add a trial?','s');
 while addtrial == 'y'
     disp('Current trial onsets (in samples) are : ') 
     disp(trials(:,1))
+    
+    disp('Current trial offsets (in samples) are : ') 
+    disp(trials(:,2))
+    
+    
     newonset = input('Enter onset of new trial (sample number) : ');
     newduration = input('Enter duration of new trial (put 115000 for default)');
     
-    trials(end+1,:) = [newonset newonset+newduration-1 0];
+    
+    testdur = newonset+5000+newduration-1;
+    if testdur < nsamples
+        trials(end+1,:) = [newonset+5000 newonset+5000+newduration-1 0];
+    else
+        disp(['OUT OF BORDER - max sample is ' num2str(nsamples)])
+    end
     
     
     disp('Updated trial onsets (in samples) are : ') 
     disp(trials(:,1))
+    
+    disp('Updated trial offsets (in samples) are : ') 
+    disp(trials(:,2))
+    
+    
     nbtrials = plot_ann_trials(trials,nsamples,fig);
 
     addtrial = input('Do you want to add another trial?','s');
@@ -90,12 +110,77 @@ end
 
 close(fig)
 
+disp('UPDATING FIELDTRIP STRUCTURE WITH NEW TRIAL DEFINITIONS')
+
+cfg.trl=trials;
+
+
+load trialnamesref
 
 %%%% Section to NAME all trials
-disp('TRIAL NAMING')
-for i=1:nbtrials
-    trialnames{i}=input(['Name Trial ', num2str(i) ':'],'s');
+
+trialnameval = 0;
+clear trialnames
+
+while trialnameval == 0 
+
+    disp([num2str(nbtrials) ' trials for this subject'])
+
+    disp('TRIAL NAMING')
+    disp('Possible names are : ') 
+    disp(trialnamesref)
+    for i=1:nbtrials
+        strinput=input(['Name Trial ', num2str(i) ':'],'s');
+
+        testval = strcmp(trialnamesref,strinput);
+        
+        while sum(testval) == 0
+            disp('Name not allowed')
+            disp('Possible names are : ') 
+            disp(trialnamesref)
+            strinput=input(['Name Trial ', num2str(i) ':'],'s');
+            testval = strcmp(trialnamesref,strinput);
+        end
+        
+        trialnames{i} = strinput;
+
+    end
+
+    disp('TRIAL NAMES : ' ) 
+    disp(trialnames)
+    
+    trialnameval = 1;
+% 
+%     for i=1:nbtrials
+% 
+%         test = strcmp(trialnamesref{i},trialnames);
+%         if sum(test) < 1
+%             disp('PROBLEM IN TRIAL NAMES')
+%             disp(['Name ' trialnames{i} ' for trial ' num2str(i) ' is not allowed'])
+%             trialnameval = 0;
+%             disp('NAMING WILL RESTART NOW')
+%             pause(2)
+%             break
+%         elseif sum(test) > 1
+% 
+%             disp('PROBLEM IN TRIAL NAMES')
+%             disp(['Name ' trialnames{i} ' is used more than once'])
+%             disp(trialnames)
+%             trialnameval = 0;
+%             disp('NAMING WILL RESTART NOW')
+%             pause(2)
+%             clc
+%             break
+%         end
+%     end
+
 end
+disp('FINISHED TRIAL NAMING') 
+
+disp('SAVING...') 
 
 
+
+
+disp('SUCESSFUL ! ') 
 
