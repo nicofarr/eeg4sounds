@@ -4,7 +4,7 @@
 %%% 6 Conditions 
 %%% ....... parfois 5 
 %%% Les conditions démarrent par un trigger et font deux minutes
-%%% A faire : dropper les 5 premières de l'enregistrement 
+%%% A faire : dropper les 5 premières secondes de l'enregistrement 
 %%% On prend au MAX 1 min 55 
 
 %%% Dans certains cas (annotaiton sur cahier de labo), le trigger doit être
@@ -13,7 +13,7 @@
 
 
 %% 0 - Définition des triggers et ordres des conditions 
-%% - input : le petit cahier d'Olivier (hélas pas en numérique) 
+%% - input : données brutes + le petit cahier d'Olivier (hélas pas en numérique) 
 %% - output : annotation des triggers et ordre des conditions 
 
 %% 1 - Garder un set d'electrodes défini à l'avance (défini dans script_0_paramaters) 
