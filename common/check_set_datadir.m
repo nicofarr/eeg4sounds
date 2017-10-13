@@ -3,5 +3,4 @@ if ~exist('datadirset','var')
     datadirset=1;
 end
 
-disp([' Dossier data : ' datadir])
-disp('Faire "clear" pour réinitiliaser')
+disp(['Dossier data : ' datadir])
