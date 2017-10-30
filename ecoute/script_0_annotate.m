@@ -1,7 +1,11 @@
+%% 0 - Définition des triggers et ordres des conditions 
+%% - input : données brutes + le petit cahier d'Olivier (hélas pas en numérique) 
+%% - output : annotation des triggers et ordre des conditions 
+
+
 addpath ../common/
 
 check_set_datadir;
-
 
 check_set_resultdir;
 
