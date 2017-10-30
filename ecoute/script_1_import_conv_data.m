@@ -5,6 +5,9 @@
 %%% Ce fichier scan le repertoire entier de fichiers annotés, et lance la
 %%% conversion sur chacun d'entre eux
 
+addpath ../common/
+
+check_set_resultdir;
 
 %% Load the list of good electrodes
 load_good_elecs;
