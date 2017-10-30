@@ -2,9 +2,13 @@ addpath ../common/
 
 check_set_datadir;
 
+
 check_set_resultdir;
 
 [file_ecoute,subjid] = choose_file(datadir);
+disp('Press enter if subj ID is good otherwise ctlr-C')
+pause
+
 
 resultfile = [resultdir '/ecoute/annot/' subjid '.mat'];
 
