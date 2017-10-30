@@ -8,9 +8,6 @@ check_set_resultdir;
 
 [filetoinspect,filepath] = uigetfile([resultdir '/ecoute/import/*.mat']);
 
-%%% Checking whether this file has been already inspected 
-
-
 %%% Create result folder for storing visual artefacts
 
 if ~exist([resultdir '/ecoute/vis_art'],'dir')
@@ -19,11 +16,10 @@ if ~exist([resultdir '/ecoute/vis_art'],'dir')
     
 end
 
+%%% Checking whether this file has been already inspected 
+
 resultfile_visart = [resultdir, '/ecoute/vis_art/', filetoinspect];
 
-if exist(resultfile_visart,'file')
-    disp('File has already been visually inspected : loading results.');
-end
 
 
 
@@ -32,6 +28,13 @@ end
 cfg = [];
 
 visdata = load([filepath,filetoinspect],'data');
+
+if exist(resultfile_visart,'file')
+    disp('File has already been visually inspected : loading results.');
+    artfctdef_prev = load(resultfile_visart,'artfctdef');
+    cfg.artfctdef = artfctdef_prev.artfctdef;
+end
+
 
 cfg.viewmode = 'vertical'; %%%% remplacer par butterfly pour avoir les electrodes superposées
 %%% Paramètres de préprocessing uniquement pour la visu
@@ -45,3 +48,7 @@ cfg.preproc.dftfilter = 'yes'; %%% Ceci est le notch
 
 %%% Cette fonction démarre l'outil de visualisation
 cfg_visual_clean = ft_databrowser(cfg,visdata.data);
+
+artfctdef = cfg_visual_clean.artfctdef; 
+
+save(resultfile_visart,'artfctdef')
