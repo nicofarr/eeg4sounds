@@ -28,7 +28,7 @@
 %% 3 - Rejection d'artefacts automatique Jump + muscles 
 %% -- Input : données brutes (elec utiles)  + Seuil (A DEFINIR POUR LE GROUPE)
 %% --output : annotations d'artefacts jump et muscles 
-%% cette étape est semi-automatique (identification du seuile 
+%% cette étape est semi-automatique (identification du seuil) 
 
 %% 4 - Visualisation - premier contrôle qualité : 
 %% - a - étape identique à 2 où l'on visualise les données horizontalement avec les sections identifiées précedemment comme artefacts
