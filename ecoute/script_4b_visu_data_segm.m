@@ -1,90 +1,66 @@
 %% 4 - Visualisation - premier contrôle qualité : 
-%% - a - étape identique à 2 où l'on visualise les données horizontalement avec les sections identifiées précedemment comme artefacts
-%% output: anotation des 3 types d'artefacts
+%% - b - COUPER EN TRANCHES PUIS mode "summary" qui permet d'identifier immédiatement les électrodes trop bruitées (à interpoler) 
+%% - c - COUPER EN TRANCHES PUIS mode "electrode" idem 
+%% output : annotations d'electrodes à rejeter et à interpoler plus tard
+
 addpath ../common/
 check_set_resultdir;
 [filetoinspect,filepath] = uigetfile([resultdir '/ecoute/import/*.mat']);
 
 %%% Create result folder for storing final all artefacts
-if ~exist([resultdir '/ecoute/all_art'],'dir')
+if ~exist([resultdir '/ecoute/art_segm'],'dir')
     
-    mkdir([resultdir '/ecoute/all_art'])
+    mkdir([resultdir '/ecoute/art_segm'])
    
 end
 
 %%% Checking whether this file has been already inspected 
 
-resultfile_all_art = [resultdir, '/ecoute/all_art/', filetoinspect];
+resultfile_art_segm = [resultdir, '/ecoute/art_segm/', filetoinspect];
+
+if exist(resultfile_art_segm,'file')
+    disp('File has already been inspected : loading results.');
+    artfctdef_prev = load(resultfile_art_segm,'????');
+end
 
 %%% Defining the cfg for inspection 
 cfg = [];
 visdata = load([filepath,filetoinspect],'data');
 % Load artifacts 
-resultfile_vis_art = [resultdir '/ecoute/vis_art/', filetoinspect];
-resultfile_auto_art = [resultdir '/ecoute/autoreject/', filetoinspect];
-artfctdef_vis = load(resultfile_vis_art,'artfctdef');
-artfctdef_auto = load(resultfile_auto_art,'artfctdef');
+resultfile_all_art = [resultdir '/ecoute/all_art/', filetoinspect];
+artfctdef_final = load(resultfile_all_art,'artfctdef');
 
-cfg.artfctdef.visual=artfctdef_vis.artfctdef.visual;
-cfg.artfctdef.jump=artfctdef_auto.artfctdef.jump;
-cfg.artfctdef.muscle=artfctdef_auto.artfctdef.muscle;
-
-if exist(resultfile_all_art,'file')
-    disp('File has already been inspected : loading results.');
-    artfctdef_prev = load(resultfile_all_art,'artfctdef');
-    cfg.artfctdef = []
-    cfg.artfctdef = artfctdef_prev.artfctdef;
-end
-
-
-
-cfg.viewmode = 'vertical'; %%%% remplacer par butterfly pour avoir les electrodes superposées
-%%% Paramètres de préprocessing uniquement pour la visu
-cfg.preproc.bpfilter = 'yes';
-cfg.preproc.bpfreq = [0.3 70];
-
-%cfg.blocksize = 10; %%% by blocks of 10 seconds 
-cfg.channel = [1:50];
-
-cfg.preproc.dftfilter = 'yes'; %%% Ceci est le notch
-
-%%% Cette fonction démarre l'outil de visualisation
-cfg_all_clean = ft_databrowser(cfg,visdata.data);
-
-artfctdef = cfg_all_clean.artfctdef; 
-
-save(resultfile_visart,'artfctdef')
-
-
-
-
-
-
-%%% B/C 
-
-% Remove artifacts from data
 cfg            = [];
+cfg.length    = 10; % SEGMENTS DE X SECONDES 
+data_cut=ft_redefinetrial(cfg,visdata.data); 
 
-cfg.artfctdef.reject          = 'partial'
-%cfg.artfctdef.minaccepttim    =                      
-cfg.artfctdef.visual.artifact    = artifact_eog;
-cfg.artfctdef.jump.artifact   = artifact_jump;
-cfg.artfctdef.muscle.artifact = artifact_muscle;
-cfg = ft_rejectartifact(cfg,visdata.data)
-    
-cfg.viewmode = 'vertical'; %%%% remplacer par butterfly pour avoir les electrodes superposées
-%%% Paramètres de préprocessing uniquement pour la visu
-cfg.preproc.bpfilter = 'yes';
-cfg.preproc.bpfreq = [0.3 70];
+cfg            = [];
+cfg.artfctdef=artfctdef_final.artfctdef;
+cfg.artfctdef.reject          = 'partial';% ou 'complete' si on supprime tout le segment
+cfg.artfctdef.minaccepttim    = 5;    % DUREE (en Secondes) MINIMALE TOLEREE                 
+data_post_art = ft_rejectartifact(cfg,data_cut);
 
-%cfg.blocksize = 10; %%% by blocks of 10 seconds 
-cfg.channel = [1:50];
+cfg = [];
+cfg.method   = 'channel';
+%cfg.alim    = 100000;
+%cfg.eegscale    = 100;
+cfg.channel  = 'all';   
+data_clean   = ft_rejectvisual(cfg, data_post_art);  
 
-cfg.preproc.dftfilter = 'yes'; %%% Ceci est le notch
+cfg = [];
+cfg.method   = 'trial';
+cfg.channel  = 'all';   
+data   = ft_rejectvisual(cfg, data_post_art);  
 
-%%% Cette fonction démarre l'outil de visualisation
-cfg_visual_clean = ft_databrowser(cfg,visdata.data);
+cfg = [];
+cfg.method   = 'summary';% 'channel' 'trial'
+cfg.channel  = 'all';    % 
+data   = ft_rejectvisual(cfg, data_post_art);  
 
-artfctdef = cfg_visual_clean.artfctdef; 
 
-save(resultfile_all_art,'artfctdef')
+
+
+
+
+   
+
