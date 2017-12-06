@@ -32,8 +32,12 @@
 
 %% 4 - Visualisation - premier contrôle qualité : 
 %% - a - étape identique à 2 où l'on visualise les données horizontalement avec les sections identifiées précedemment comme artefacts
-%% - b - mode "summary" qui permet d'identifier immédiatement les électrodes trop bruitées (à interpoler) 
-%% - c - mode "electrode" idem 
+
+%%% A CE STADE DECIDER DU DECOUPAGE
+
+
+%% - b - COUPER EN TRANCHES PUIS mode "summary" qui permet d'identifier immédiatement les électrodes trop bruitées (à interpoler) 
+%% - c - COUPER EN TRANCHES PUIS mode "electrode" idem 
 %% output : annotations d'electrodes à rejeter et à interpoler plus tard
 
 %% 5 - Transform ICA (Analyse en composantes indépendantes) 
