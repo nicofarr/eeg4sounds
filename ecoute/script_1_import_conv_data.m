@@ -13,10 +13,12 @@ check_set_resultdir;
 load_good_elecs;
 
 %% List all annotated files
-annotedfiles = dir([resultdir '/ecoute/annot']);
+%annotedfiles = dir([resultdir '/ecoute/annot']);
 %% Remove '.' and '..'
-annotedfiles(1:2) = [];
+%annotedfiles(1:2) = [];
 
+% Open a dialog to select files to process
+[annotedfiles,fullpath] = uigetfile([resultdir '/ecoute/annot'],'MultiSelect','On');
 
 %%% Create result folder
 
@@ -30,9 +32,9 @@ end
 
 for ind = 1:size(annotedfiles,1)
     
-    curfile = annotedfiles(ind).name;
+    curfile = annotedfiles(ind);
     
-    filepath = [resultdir,'/ecoute/annot/' annotedfiles(ind).name];
+    filepath = strcat(fullpath,curfile);
     
     cfgloaded = load(filepath,'cfg');
     
