@@ -39,7 +39,7 @@ end
 cfg.viewmode = 'vertical'; %%%% remplacer par butterfly pour avoir les electrodes superposées
 %%% Paramètres de préprocessing uniquement pour la visu
 cfg.preproc.bpfilter = 'yes';
-cfg.preproc.bpfreq = [0.3 70];
+cfg.preproc.bpfreq = [0.5 70];
 
 %cfg.blocksize = 10; %%% by blocks of 10 seconds 
 cfg.channel = [1:50];
