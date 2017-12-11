@@ -23,9 +23,10 @@ visdata = load([filepath,filetoinspect],'data');
 list_elec=visdata.data.label;
 if exist(resultfile_elec,'file')
     disp('File has already been inspected : ');
-    decision = input('Do you want to re-inspect electrodes ? (n to abort) ','s');
+    decision = input('Do you want to re-inspect electrodes from begining? (y or n) ','s');
     if decision == 'n'
-    error('Proceed to next step (script 7)')
+    artfctdef_prev = load(resultfile_elec,'elec');
+    list_elec=elec.good;
     end
 end
 
