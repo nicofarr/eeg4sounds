@@ -48,9 +48,10 @@ for i=1:length(data_post_art.time)
    data_post_art.time(i)=data_post_art.time(1);
 end
 % Il est possible d'inverser si on préfere electrode puis summary       
-
 % Affiche Summary
+load('../common/layout_E.mat');
 cfg = [];
+cfg.layout=lay;
 cfg.method   = 'summary';% 'channel' 'trial'
 data   = ft_rejectvisual(cfg, data_post_art); 
 
