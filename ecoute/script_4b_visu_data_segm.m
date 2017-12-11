@@ -22,9 +22,12 @@ resultfile_elec = [resultdir, '/ecoute/art_elec/', filetoinspect];
 visdata = load([filepath,filetoinspect],'data');
 list_elec=visdata.data.label;
 if exist(resultfile_elec,'file')
-    disp('File has already been inspected : loading results.');
+    disp('File has already been inspected : ');
+    decision = input('Do you want to re-inspect electrodes from begining? (y or n) ','s');
+    if decision == 'n'
     artfctdef_prev = load(resultfile_elec,'elec');
     list_elec=elec.good;
+    end
 end
 
 
