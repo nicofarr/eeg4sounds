@@ -53,13 +53,13 @@ for suj=1:nsuj
     data_post_art=ft_redefinetrial(cfg,visdata.data); 
 
     cfg            = [];
-    cfg.channel =elec_good.elec.good;
+    cfg.channel =elec_list.elec.good;
     cfg.artfctdef=artfctdef_final.artfctdef;
     cfg.artfctdef.reject          = 'complete';% ou 'complete' si on supprime tout le segment
     data_post_art = ft_rejectartifact(cfg,data_post_art);
 
     cfg = [];
-    cfg.channel = elec_good.elec.good;
+    cfg.channel = elec_list.elec.good;
     cfg.method = 'runica'; 
     cfg.runica.pca = 60; % choix nombre de pca!!!
     ICA_comp = ft_componentanalysis(cfg,data_post_art);

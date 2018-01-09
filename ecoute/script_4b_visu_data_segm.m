@@ -26,7 +26,7 @@ if exist(resultfile_elec,'file')
     decision = input('Do you want to re-inspect electrodes from begining? (y or n) ','s');
     if decision == 'n'
     artfctdef_prev = load(resultfile_elec,'elec');
-    list_elec=elec.good;
+    list_elec=elec_list.elec.good;
     end
 end
 
