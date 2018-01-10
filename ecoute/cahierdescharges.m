@@ -1,63 +1,68 @@
-% Description des étapes du pipeline de preprocessing ECOUTE
+% Description des ï¿½tapes du pipeline de preprocessing ECOUTE
 
 %%% STRUCTURE DES DONNEES BRUTES 
 %%% 6 Conditions 
 %%% ....... parfois 5 
-%%% Les conditions démarrent par un trigger et font deux minutes
-%%% A faire : dropper les 5 premières secondes de l'enregistrement 
+%%% Les conditions dï¿½marrent par un trigger et font deux minutes
+%%% A faire : dropper les 5 premiï¿½res secondes de l'enregistrement 
 %%% On prend au MAX 1 min 55 
 
-%%% Dans certains cas (annotaiton sur cahier de labo), le trigger doit être
-%%% décalé d'un certain nombre de secondes 
-%% Dans ce cas, on retranche au MAX 1 min 55 ce qui a été raté 
+%%% Dans certains cas (annotaiton sur cahier de labo), le trigger doit ï¿½tre
+%%% dï¿½calï¿½ d'un certain nombre de secondes 
+%% Dans ce cas, on retranche au MAX 1 min 55 ce qui a ï¿½tï¿½ ratï¿½ 
 
 
-%% 0 - Définition des triggers et ordres des conditions 
-%% - input : données brutes + le petit cahier d'Olivier (hélas pas en numérique) 
+%% 0 - Dï¿½finition des triggers et ordres des conditions 
+%% - input : donnï¿½es brutes + le petit cahier d'Olivier (hï¿½las pas en numï¿½rique) 
 %% - output : annotation des triggers et ordre des conditions 
 
-%% 1 - Garder un set d'electrodes défini à l'avance (défini dans script_0_paramaters) 
-%% -- input : données brutes
-%% -- output : données brutes moins les électrodes rejetées (format mat) 
+%% 1 - Garder un set d'electrodes dï¿½fini ï¿½ l'avance (dï¿½fini dans script_0_paramaters) 
+%% -- input : donnï¿½es brutes
+%% -- output : donnï¿½es brutes moins les ï¿½lectrodes rejetï¿½es (format mat) 
 
-%% 2 - Rejection d'artefact visuellement identifiables sur des données filtrées 
-%% -- input : données brutes (elec utiles )
-%% -- output : annotations d'artefacts identifiés visuellement
-%% cette étape est semi-automatique
+%% 2 - Rejection d'artefact visuellement identifiables sur des donnï¿½es filtrï¿½es 
+%% -- input : donnï¿½es brutes (elec utiles )
+%% -- output : annotations d'artefacts identifiï¿½s visuellement
+%% cette ï¿½tape est semi-automatique
 
 %% 3 - Rejection d'artefacts automatique Jump + muscles 
-%% -- Input : données brutes (elec utiles)  + Seuil (A DEFINIR POUR LE GROUPE)
+%% -- Input : donnï¿½es brutes (elec utiles)  + Seuil (A DEFINIR POUR LE GROUPE)
 %% --output : annotations d'artefacts jump et muscles 
-%% cette étape est semi-automatique (identification du seuil) 
+%% cette ï¿½tape est semi-automatique (identification du seuil) 
 
-%% 4 - Visualisation - premier contrôle qualité : 
-%% - a - étape identique à 2 où l'on visualise les données horizontalement avec les sections identifiées précedemment comme artefacts
+%% 4 - Visualisation - premier contrï¿½le qualitï¿½ : 
+%% - a - ï¿½tape identique ï¿½ 2 oï¿½ l'on visualise les donnï¿½es horizontalement avec les sections identifiï¿½es prï¿½cedemment comme artefacts
 
 %%% A CE STADE DECIDER DU DECOUPAGE
 
 
-%% - b - COUPER EN TRANCHES PUIS mode "summary" qui permet d'identifier immédiatement les électrodes trop bruitées (à interpoler) 
+%% - b - COUPER EN TRANCHES PUIS mode "summary" qui permet d'identifier immï¿½diatement les ï¿½lectrodes trop bruitï¿½es (ï¿½ interpoler) 
 %% - c - COUPER EN TRANCHES PUIS mode "electrode" idem 
-%% output : annotations d'electrodes à rejeter et à interpoler plus tard
+%% output : annotations d'electrodes ï¿½ rejeter et ï¿½ interpoler plus tard
 
-%% 5 - Transform ICA (Analyse en composantes indépendantes) 
-%%% Dans cette étape, découper les données en segments contigus (5
+%% 5 - Transform ICA (Analyse en composantes indï¿½pendantes) 
+%%% Dans cette ï¿½tape, dï¿½couper les donnï¿½es en segments contigus (5
 %%% secondes)
-%% -- Inputs : données brutes (elec utiles)  + annotations d'artefacts des étapes 2 et 3 + annotations d'electrodes à rejeter
+%% -- Inputs : donnï¿½es brutes (elec utiles)  + annotations d'artefacts des ï¿½tapes 2 et 3 + annotations d'electrodes ï¿½ rejeter
 %% -- Output : Composantes ICA
 
 %% 6 - Inspect ICA : inspection visuelle pour identifier quelles composantes correspondent aux mouvements oculaires
-%% -- input : Composantes ICA + données pre-cleanées ( = brutes utiles moins elec bruitées moins artefacts)
-%% -- output : données "back-projetées"  (i.e. en enlevant la contribution des composantes artefacts mouvements oculaires) 
+%% -- input : Composantes ICA + donnï¿½es pre-cleanï¿½es ( = brutes utiles moins elec bruitï¿½es moins artefacts)
+%% -- oustput : donnï¿½es "back-projetï¿½es"  (i.e. en enlevant la contribution des composantes artefacts mouvements oculaires) 
 
-%% 7 - Visualisation - deuxième contrôle qualité : 
-%% - a - étape identique à 2 où l'on visualise les données horizontalement avec les sections identifiées précedemment comme artefacts
-%% - b - mode "summary" qui permet d'identifier immédiatement les électrodes trop bruitées (à interpoler) 
-%% output : annotations de segments / essais à rejeter sur les données clean 
+% 6b - Interpolation 
+% -- Calcule les donnÃ©es interpolÃ©es AVANT et APRES ICA
 
-%% 8 - Output données preprocéssées finale
+
+
+%% 7 - Visualisation - deuxiï¿½me contrï¿½le qualitï¿½ : 
+%% - a - ï¿½tape identique ï¿½ 2 oï¿½ l'on visualise les donnï¿½es horizontalement avec les sections identifiï¿½es prï¿½cedemment comme artefacts
+%% - b - mode "summary" qui permet d'identifier immï¿½diatement les ï¿½lectrodes trop bruitï¿½es (ï¿½ interpoler) 
+%% output : annotations de segments / essais ï¿½ rejeter sur les donnï¿½es clean 
+
+%% 8 - Output donnï¿½es preprocï¿½ssï¿½es finale
 %% input : output de 7 
-%% output : données preproc finale 
+%% output : donnï¿½es preproc finale 
 
 
 
