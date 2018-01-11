@@ -37,11 +37,30 @@ load([resultdir '/ecoute/annot/',filetoinspect])
 
 newtrl =cfg.trl; 
 
-%redefine trials
+%redefine trials to the full 115 seconds of conditions
 cfgredef = [];
 cfgredef.trl = newtrl; 
 dataredef = ft_redefinetrial(cfgredef,datain.data);
 dataredef_preICA = ft_redefinetrial(cfgredef,datpreICA.data);
+
+% We will use the artifacts definition one last time to remove the bad
+% segments of data 
+
+% Load artifacts 
+resultfile_all_art = [resultdir '/ecoute/all_art/', filetoinspect];
+artfctdef_final = load(resultfile_all_art,'artfctdef');
+
+cfg            = [];
+cfg.artfctdef=artfctdef_final.artfctdef;
+cfg.artfctdef.reject          = 'partial';% ou 'complete' si on supprime tout le segment
+dataredef = ft_rejectartifact(cfg,dataredef);
+dataredef_preICA = ft_rejectartifact(cfg,dataredef_preICA);
+
+cfg = [];
+cfg.minlength = 5;
+dataredef = ft_redefinetrial(cfg,dataredef);
+dataredef_preICA = ft_redefinetrial(cfg,dataredef_preICA);
+
 
 %% a bit of prepreocessing 
 cfg =[];
@@ -87,10 +106,10 @@ for n = 1:nbtests
     curelecstr = dataredef.label(curelec);
     curelecstr = curelecstr{1};
     
-    curtitle = strcat(curelecstr,',', ...
-        trialnames(curtrial),num2str(t/1000),':to:', num2str((t+tleg)/1000));
+    %curtitle = strcat(curelecstr,',', ...
+    %    trialnames(curtrial),num2str(t/1000),':to:', num2str((t+tleg)/1000));
     
-    title(curtitle)
+    %title(curtitle)
     
 end
  legend('clean','beforeICA')
