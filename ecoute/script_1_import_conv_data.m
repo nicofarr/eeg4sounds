@@ -1,8 +1,8 @@
-%% 1 - Garder un set d'electrodes défini à l'avance (défini dans common/eleckeep.txt)
-%% -- input : données brutes
-%% -- output : données brutes moins les électrodes rejetées (format mat)
+%% 1 - Garder un set d'electrodes dï¿½fini ï¿½ l'avance (dï¿½fini dans common/eleckeep.txt)
+%% -- input : donnï¿½es brutes
+%% -- output : donnï¿½es brutes moins les ï¿½lectrodes rejetï¿½es (format mat)
 
-%%% Ce fichier scan le repertoire entier de fichiers annotés, et lance la
+%%% Ce fichier scan le repertoire entier de fichiers annotï¿½s, et lance la
 %%% conversion sur chacun d'entre eux
 
 addpath ../common/
@@ -28,18 +28,48 @@ if ~exist([resultdir '/ecoute/import'],'dir')
     
 end
 
-%%% Loop over all annoted files
-
-for ind = 1:size(annotedfiles,1)
+if iscell(annotedfiles)
     
-    curfile = annotedfiles(ind);
+    %%% Loop over all annoted files
+    
+    for ind = 1:size(annotedfiles,2)
+        
+        curfile = annotedfiles(ind);
+        
+        filepath = strcat(fullpath,curfile);
+        
+        cfgloaded = load(filepath{1},'cfg');
+        
+        cfgpreproc = cfgloaded.cfg;
+        
+        %%% Setting up the resultfile
+        
+        resultfile = [resultdir '/ecoute/import/' curfile];
+        
+        %%% Setting up parameters for "preprocessing"
+        %%% We just need to select the electrodes that we will keep (in elec_cell)
+        %%% and save the data into resultfile
+        
+        cfgpreproc.outputfile = resultfile;
+        cfgpreproc.channel = elec_cell;
+        
+        %%% Launch the preprocessing
+        
+        ft_preprocessing(cfgpreproc);
+        
+        
+    end
+    
+    
+else
+    curfile = annotedfiles;
     
     filepath = strcat(fullpath,curfile);
     
-    cfgloaded = load(filepath,'cfg');
+    cfgloaded = load(filepath{1},'cfg');
     
     cfgpreproc = cfgloaded.cfg;
-   
+    
     %%% Setting up the resultfile
     
     resultfile = [resultdir '/ecoute/import/' curfile];
@@ -54,6 +84,7 @@ for ind = 1:size(annotedfiles,1)
     %%% Launch the preprocessing
     
     ft_preprocessing(cfgpreproc);
+    
     
     
 end
