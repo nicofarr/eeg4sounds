@@ -1,5 +1,5 @@
-%% 0 - Définition des triggers et ordres des conditions 
-%% - input : données brutes + le petit cahier d'Olivier (hélas pas en numérique) 
+%% 0 - Dï¿½finition des triggers et ordres des conditions 
+%% - input : donnï¿½es brutes + le petit cahier d'Olivier (hï¿½las pas en numï¿½rique) 
 %% - output : annotation des triggers et ordre des conditions 
 
 
@@ -65,6 +65,34 @@ fig = figure;
 nbtrials = plot_ann_trials(trials,nsamples,fig);
 
 
+%%%% Section to DELETED new trials
+
+addtrial = input('Do you want to delete a trial?','s');
+while addtrial == 'y'
+    disp('Current trial onsets (in samples) are : ')
+    disp(trials(:,1))
+    
+    disp('Current trial offsets (in samples) are : ')
+    disp(trials(:,2))
+    
+    
+    trialtosupp = input('Which trial do you want to suppress ? ');
+    
+    trials(trialtosupp,:)=[];
+    
+    
+    disp('Updated trial onsets (in samples) are : ')
+    disp(trials(:,1))
+    
+    disp('Updated trial offsets (in samples) are : ')
+    disp(trials(:,2))
+    
+    
+    nbtrials = plot_ann_trials(trials,nsamples,fig);
+    
+    addtrial = input('Do you want to delete another trial?','s');
+    
+end
 
 %%%% Section to ADD new trials
 addtrial = input('Do you want to add a trial?','s');
