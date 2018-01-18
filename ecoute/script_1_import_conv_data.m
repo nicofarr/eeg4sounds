@@ -29,7 +29,7 @@ if ~exist([resultdir '/ecoute/import'],'dir')
 end
 
 if iscell(annotedfiles)
-    
+    error('do not use multiple selection, bug to be corrected') 
     %%% Loop over all annoted files
     
     for ind = 1:size(annotedfiles,2)
@@ -38,7 +38,9 @@ if iscell(annotedfiles)
         
         filepath = strcat(fullpath,curfile);
         
+        
         cfgloaded = load(filepath{1},'cfg');
+      
         
         cfgpreproc = cfgloaded.cfg;
         
@@ -65,8 +67,11 @@ else
     curfile = annotedfiles;
     
     filepath = strcat(fullpath,curfile);
-    
-    cfgloaded = load(filepath{1},'cfg');
+    if strcmp(computer,'PCWIN64')
+        cfgloaded = load(filepath,'cfg');
+    else
+        cfgloaded = load(filepath{1},'cfg');
+    end
     
     cfgpreproc = cfgloaded.cfg;
     
