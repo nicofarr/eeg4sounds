@@ -1,8 +1,8 @@
-function [trl, event] = ft_trialfun_OddBin(cfg);
+function [trl, event] = ft_trialfun_OddBin(cfg)
 
 % read the header information and the events from the data
-hdr   = ft_read_header(cfg.dataset);
-event = ft_read_event(cfg.dataset);
+hdr   = ft_read_header(cfg.inputfile);
+event = ft_read_event(cfg.inputfile);
 % determine the number of samples before and after the trigger
 pretrig  = -round(cfg.trialdef.prestim  * hdr.Fs);
 posttrig =  round(cfg.trialdef.poststim * hdr.Fs);
