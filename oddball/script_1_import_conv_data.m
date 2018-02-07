@@ -61,7 +61,7 @@ for ind = 1:2
     
     %%% TRIAL DEFINITION
     cfg = [];
-
+    
     cfg.dataset=odd_files{ind};
 
     cfg.dataformat = 'egi_mff_v2';
@@ -75,6 +75,7 @@ for ind = 1:2
     cfg.eventformat = 'egi_mff_v2';
     
     cfg.namesuj=subjid;
+    cfg.condition=ind;
     cfg.trialfun   = 'ft_trialfun_OddBin';% enleve 
             
     cfg.inputfile = odd_files{ind};
