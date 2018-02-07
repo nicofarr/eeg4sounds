@@ -2,7 +2,7 @@ function [trl, event] = ft_trialfun_OddBin(cfg)
 
 % read the header information and the events from the data
 hdr   = ft_read_header(cfg.inputfile);
-event = ft_read_event(cfg.inputfile);
+event = ft_read_event(cfg.inputfile,'eventformat','egi_mff_v2','header',hdr);
 % determine the number of samples before and after the trigger
 pretrig  = -round(cfg.trialdef.prestim  * hdr.Fs);
 posttrig =  round(cfg.trialdef.poststim * hdr.Fs);
