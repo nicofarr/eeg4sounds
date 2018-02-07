@@ -1,7 +1,11 @@
-function [currentfile,subjid] = choose_file(datadir)
+function [currentfile,subjid] = choose_file(datadir,mess)
+
+if nargin < 2
+    mess = 'Choissisez le fichier a analyser';
+end
 
 if strcmp(computer,'MACI64')
-    [curfile,path2file] = uigetfile({[datadir '/*.mff']},'Choisissez le fichier à analyser');
+    [curfile,path2file] = uigetfile({[datadir '/*.mff']},mess);
     
     currentfile = [path2file,curfile];
     subjid = curfile(1:4);
@@ -10,7 +14,7 @@ if strcmp(computer,'MACI64')
     
 else
     
-    [currentfile] = uigetdir(datadir,'Choisissez le fichier à analyser');
+    [currentfile] = uigetdir(datadir,mess);
     
     subjid = currentfile(end-29:end-26);
     disp(['File : ' currentfile])
