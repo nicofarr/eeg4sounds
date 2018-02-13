@@ -90,7 +90,13 @@ for ind = 1:2
     
     cfg = [];
     cfg.trl = trl;
-    cfg.inputfile = odd_files{ind};
+    %cfg.inputfile = odd_files{ind};
+    cfg.dataset=odd_files{ind};
+
+    cfg.dataformat = 'egi_mff_v2';
+
+    cfg.headerformat = 'egi_mff_v2';
+    
     cfg.channel = elec_cell;        
     cfg.outputfile = res_files{ind};
     
