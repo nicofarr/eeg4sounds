@@ -72,6 +72,15 @@ save(resultfile_elec,'elec')
 
 
 
+cfgerp = [];
+cfgerp.demean = 'yes';
+avg = ft_timelockanalysis(cfgerp,data);
+
+cfgplot = [];
+cfgplot.layout =  '../common/layout_E.mat';
+ft_multiplotER(cfgplot,avg)
+
+
 
 
 

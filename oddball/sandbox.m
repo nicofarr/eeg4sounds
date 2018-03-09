@@ -1,12 +1,15 @@
-clear
 
-infile='/Users/nicolasfarrugia/Documents/recherche/data_eeg/eeg4sounds/LA17/LA80OddSTE_20170906_113425.mff';
+cfglay = [];
+cfglay.layout = '../common/layout_E.mat';
+lay = ft_prepare_layout(cfglay);
+
+ft_plot_lay(lay);
 
 
-%%% Identification des essais
-cfg=[];
-cfg.namesuj='CP12';
-cfg.trialdef.prestim=0.5;
-cfg.trialdef.poststim=1;
-cfg.dataset=infile;
-cfg=ft_definetrial(cfg);
+cfgerp = [];
+cfgerp.demean = 'yes';
+avg = ft_timelockanalysis(cfgerp,data);
+
+cfgplot = [];
+cfgplot.layout =  '../common/layout_E.mat';
+ft_multiplotER(cfgplot,avg)
