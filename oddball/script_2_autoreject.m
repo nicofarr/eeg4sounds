@@ -1,14 +1,19 @@
 %% 2 - Rejection d'artefacts semi-automatique Jump + muscles 
-%% -- Input : données découpées (elec utiles)  + Seuil (A DEFINIR POUR LE GROUPE)
+%% -- Input : donnï¿½es dï¿½coupï¿½es (elec utiles)  + Seuil (A DEFINIR POUR LE GROUPE)
 %% --output : annotations d'artefacts jump et muscles 
-%% cette étape est semi-automatique (identification du seuil)
+%% cette ï¿½tape est semi-automatique (identification du seuil)
 
  
 addpath ../common/
 
-check_set_resultdir;
+%%% on server 
+% resultdir = '/sanssauvegarde/homes/nfarrugi/temp_data_eeg4sounds/results/';
+% datadir = '/sanssauvegarde/homes/nfarrugi/temp_data_eeg4sounds/raw/';
 
-[filetoinspect,filepath] = uigetfile([resultdir '/oddball/oddball/*.mat']);
+check_set_resultdir;
+check_set_datadir;
+
+[filetoinspect,filepath] = uigetfile([resultdir '/oddball/import/*.mat']);
 
 %%% Create result folder for storing visual artefacts
 
@@ -32,18 +37,15 @@ if exist(resultfile_autoart,'file')
     end
 end
 
-%%% Segment 10 seconds to visualise
-cfg            = [];
-cfg.length    = 10;
-data_cut=ft_redefinetrial(cfg,visdata.data);
-
 %%% Defining the cfg for automatic artefact rejection (Jump first, then
 %%% Muscle)
 
 % Jump artifact detection
 cfg            = [];
-% Paramètres de préprocessing uniquement pour la detection des jumps
+% Paramï¿½tres de prï¿½processing uniquement pour la detection des jumps
 % channel selection, cutoff and padding
+cfg.continuous = 'no';
+cfg.datafile = visdata.data.cfg.datafile;
 cfg.artfctdef.zvalue.channel    = 'all';
 cfg.artfctdef.zvalue.cutoff     = 95;
 cfg.artfctdef.zvalue.trlpadding = 0;
@@ -56,12 +58,12 @@ cfg.artfctdef.zvalue.medianfiltord = 9;
 cfg.artfctdef.zvalue.absdiff       = 'yes';
  % make the process interactive
 cfg.artfctdef.zvalue.interactive = 'yes';
-[cfg, artifact_jump] = ft_artifact_zvalue(cfg,data_cut);
+[cfg, artifact_jump] = ft_artifact_zvalue(cfg,visdata.data);
 thresh_value_jump=cfg.artfctdef.zvalue.cutoff;
 
 % Muscle artifact detection
  cfg            = [];
-% Paramètres de préprocessing uniquement pour la detection des muscle art.
+% Paramï¿½tres de prï¿½processing uniquement pour la detection des muscle art.
 % channel selection, cutoff and padding
 cfg.artfctdef.zvalue.channel = 'all';
 cfg.artfctdef.zvalue.cutoff      = 45;
@@ -77,7 +79,7 @@ cfg.artfctdef.zvalue.hilbert     = 'yes';
 cfg.artfctdef.zvalue.boxcar      = 0.2;
 % make the process interactive
 cfg.artfctdef.zvalue.interactive = 'yes';
-[cfg, artifact_muscle] = ft_artifact_zvalue(cfg,data_cut);
+[cfg, artifact_muscle] = ft_artifact_zvalue(cfg,visdata.data);
 thresh_value_muscle=cfg.artfctdef.zvalue.cutoff;
 
 
