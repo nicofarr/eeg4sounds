@@ -8,19 +8,19 @@ addpath ../common/
 
 check_set_resultdir;
 
-[filetoinspect,filepath] = uigetfile([resultdir '/ecoute/import/*.mat']);
+[filetoinspect,filepath] = uigetfile([resultdir '/oddball/oddball/*.mat']);
 
 %%% Create result folder for storing visual artefacts
 
-if ~exist([resultdir '/ecoute/autoreject'],'dir')
+if ~exist([resultdir '/oddball/autoreject'],'dir')
     
-    mkdir([resultdir '/ecoute/autoreject'])
+    mkdir([resultdir '/oddball/autoreject'])
     
 end
 
 %%% Checking whether this file has been already inspected 
 
-resultfile_autoart = [resultdir, '/ecoute/autoreject/', filetoinspect];
+resultfile_autoart = [resultdir, '/oddball/autoreject/', filetoinspect];
 
 visdata = load([filepath,filetoinspect],'data');
 
@@ -82,8 +82,8 @@ thresh_value_muscle=cfg.artfctdef.zvalue.cutoff;
 
 
 %%% Check if save this art rejection (else re-d
-fprintf('Treshold value : %4.1f\n', thresh_value_jump)
-fprintf('Treshold value : %4.1f\n', thresh_value_muscle)
+fprintf('Threshold value : %4.1f\n', thresh_value_jump)
+fprintf('Threshold value : %4.1f\n', thresh_value_muscle)
 decision = input('Do you want to save? ( n to abort) ','s');
 if decision == 'n'
     error('ABORTED')
