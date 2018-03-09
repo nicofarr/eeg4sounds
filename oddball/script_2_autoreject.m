@@ -45,7 +45,6 @@ cfg            = [];
 % Param�tres de pr�processing uniquement pour la detection des jumps
 % channel selection, cutoff and padding
 cfg.continuous = 'no';
-cfg.datafile = visdata.data.cfg.datafile;
 cfg.artfctdef.zvalue.channel    = 'all';
 cfg.artfctdef.zvalue.cutoff     = 95;
 cfg.artfctdef.zvalue.trlpadding = 0;
