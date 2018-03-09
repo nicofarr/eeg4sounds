@@ -35,15 +35,10 @@ end
 resultfile_all_art = [resultdir '/oddball/all_art/', filetoinspect];
 artfctdef_final = load(resultfile_all_art,'artfctdef');
 
-% Segment data
-cfg            = [];
-cfg.length    = 5; % SEGMENTS DE X SECONDES 
-data_post_art=ft_redefinetrial(cfg,visdata.data); 
-
 cfg            = [];
 cfg.artfctdef=artfctdef_final.artfctdef;
 cfg.artfctdef.reject          = 'complete';% ou 'complete' si on supprime tout le segment
-data_post_art = ft_rejectartifact(cfg,data_post_art);
+data_post_art = ft_rejectartifact(cfg,visdata.data);
 for i=1:length(data_post_art.time)
    data_post_art.time(i)=data_post_art.time(1);
 end

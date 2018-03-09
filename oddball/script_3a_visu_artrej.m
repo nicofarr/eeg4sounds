@@ -19,12 +19,9 @@ resultfile_all_art = [resultdir, '/oddball/all_art/', filetoinspect];
 cfg = [];
 visdata = load([filepath,filetoinspect],'data');
 % Load artifacts 
-resultfile_vis_art = [resultdir '/oddball/vis_art/', filetoinspect];
 resultfile_auto_art = [resultdir '/oddball/autoreject/', filetoinspect];
-artfctdef_vis = load(resultfile_vis_art,'artfctdef');
 artfctdef_auto = load(resultfile_auto_art,'artfctdef');
 
-cfg.artfctdef.visual=artfctdef_vis.artfctdef.visual;
 cfg.artfctdef.jump=artfctdef_auto.artfctdef.jump;
 cfg.artfctdef.muscle=artfctdef_auto.artfctdef.muscle;
 
