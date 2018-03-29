@@ -8,7 +8,25 @@ pretrig  = -round(cfg.trialdef.prestim  * hdr.Fs);
 posttrig =  round(cfg.trialdef.poststim * hdr.Fs);
 % search for trigger sample
 stimulus_sample = [event.sample]';
+
 stimulus_sample =stimulus_sample(2:end);
+
+if length(stimulus_sample)~=320
+    disp('not 320 samples detected, removing everything that is not DIN1');
+    disp(['There are ' num2str(length(stimulus_sample)) ' samples'])
+    removed_el=0;
+    for i=2:size(event,2)
+        curval = event(i).value;
+        if ~strcmp(curval,'DIN1')
+            disp(['Removing event ' num2str(i-1) ' with label ' curval ' ...'])
+            stimulus_sample(i-1-removed_el) = [];
+            removed_el = removed_el+1;
+        end
+        
+    end
+    
+end
+    
 
 
 % read xlsfile containing event info
