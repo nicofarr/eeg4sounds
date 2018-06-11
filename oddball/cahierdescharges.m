@@ -23,22 +23,17 @@
 %% -- input : Composantes ICA + données pre-cleanées ( = brutes utiles moins elec bruitées moins artefacts)
 %% -- output : données "back-projetées"  (i.e. en enlevant la contribution des composantes artefacts mouvements oculaires) 
 
-%% 6 - Visualisation - deuxième contrôle qualité : 
-%% - a - étape identique à 2 où l'on visualise les données horizontalement avec les sections identifiées précedemment comme artefacts
-%% - b - mode "summary" qui permet d'identifier immédiatement les électrodes trop bruitées (à interpoler) 
-%% output : annotations de segments / essais à rejeter sur les données clean 
+%% 6 - Check artefact final - puis calcul des ERP individuels par condition 
+%% - a - mode "summary" qui permet d'identifier immédiatement les essais trop bruitées 
+%% - b - Calcul des ERP individuels en séparant standards et deviants
+%% input : output de 5
+%% output : ERP individuel par condition
 
-%% 7 - Output données preprocéssées finale
-%% input : output de 7 
-%% output : données preproc finale 
+%% 7 - Visu ERP individuels pour les deux conditions
+%% input : prend deux fichiers pour chaque condition par sujet
+%% output : image
 
-%% 8 - Calcul des ERP individuels 
-%% input : données preproc finale 
-%% output : ERP individuel 
-
-%% 9 - Visu ERP individuels 
-
-%% 10 - Calcul des grand average ERP 
+%% 8 - Analyse statistique, calcul des grand average ERP 
 %% input : ERP individuels de tous 
 
 
